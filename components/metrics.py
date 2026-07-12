@@ -9,38 +9,82 @@ import streamlit as st
 
 
 
-def display_metrics(
-    leads
-):
-
-    total_leads = len(
-        leads
-    )
+def display_metrics(leads):
 
 
-    qualified_leads = len(
-        [
-            lead
-            for lead in leads
-            if lead.get("qualification") == "Qualified"
-        ]
-    )
+    total_leads = len(leads)
 
 
-    if total_leads > 0:
+    qualified_leads = 0
+
+    scores = []
+
+
+    for lead in leads:
+
+
+        budget = lead.get(
+            "budget",
+            0
+        )
+
+
+        if budget is None:
+
+            budget = 0
+
+
+        budget = int(
+            budget
+        )
+
+
+        if budget >= 10000:
+
+            qualified_leads += 1
+
+
+
+        score = lead.get(
+            "score"
+        )
+
+
+        if score is not None:
+
+
+            try:
+
+                scores.append(
+                    int(score)
+                )
+
+
+            except:
+
+                pass
+
+
+
+    if len(scores) > 0:
+
 
         average_score = round(
-            sum(
-                lead.get("score", 0)
-                for lead in leads
-            )
-            / total_leads,
+
+            sum(scores)
+            /
+            len(scores),
+
             1
+
         )
+
 
     else:
 
+
         average_score = 0
+
 
 
 
@@ -56,10 +100,12 @@ def display_metrics(
     )
 
 
+
     col2.metric(
         "Qualified Leads",
         qualified_leads
     )
+
 
 
     col3.metric(

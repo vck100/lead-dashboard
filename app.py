@@ -8,7 +8,7 @@ Frontend interface for the Lead Qualification API.
 import streamlit as st
 
 
-from services.api_client import process_lead
+from services.api_client import process_lead, get_leads
 from components.metrics import display_metrics
 from components.lead_table import display_lead_table
 
@@ -30,9 +30,13 @@ st.title(
 
 
 
-if "leads" not in st.session_state:
+st.session_state.leads = get_leads()
 
-    st.session_state.leads = []
+if st.button(
+    "Refresh Dashboard"
+):
+
+    st.session_state.leads = get_leads()    
 
 
 
@@ -66,9 +70,7 @@ if st.button(
     )
 
 
-    st.session_state.leads.append(
-        result
-    )
+    st.session_state.leads = get_leads()
 
 
     st.subheader(

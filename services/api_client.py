@@ -1,17 +1,14 @@
 """
-API Client.
+API client.
 
-Handles communication between the
-Streamlit frontend and Flask backend.
+Handles communication with Flask API.
 """
 
 
 import requests
 
 
-
-API_URL = "http://127.0.0.1:5000/process-lead"
-
+API_URL = "http://127.0.0.1:5000"
 
 
 def process_lead(
@@ -20,26 +17,23 @@ def process_lead(
     notes
 ):
 
-    payload = {
-
-        "company": company,
-
-        "budget": budget,
-
-        "notes": notes
-
-    }
-
-
-
     response = requests.post(
-
-        API_URL,
-
-        json=payload
-
+        f"{API_URL}/process-lead",
+        json={
+            "company": company,
+            "budget": budget,
+            "notes": notes
+        }
     )
 
+    return response.json()
 
+
+
+def get_leads():
+
+    response = requests.get(
+        f"{API_URL}/leads"
+    )
 
     return response.json()
