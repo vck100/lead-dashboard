@@ -8,7 +8,7 @@ Handles communication with Flask API.
 import requests
 
 
-API_URL = "http://127.0.0.1:5000"
+BASE_URL = "https://lead-qualifier-api-1.onrender.com"
 
 
 def process_lead(
@@ -18,7 +18,7 @@ def process_lead(
 ):
 
     response = requests.post(
-        f"{API_URL}/process-lead",
+        f"{BASE_URL}/process-lead",
         json={
             "company": company,
             "budget": budget,
@@ -33,7 +33,7 @@ def process_lead(
 def get_leads():
 
     response = requests.get(
-        f"{API_URL}/leads"
+        f"{BASE_URL}/leads"
     )
 
     return response.json()
