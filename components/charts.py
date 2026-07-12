@@ -30,6 +30,26 @@ def display_charts(leads):
             title="Lead Qualification"
         )
 
+        fig.update_layout(
+
+            title_x=0.5,
+
+            legend_title="",
+
+            margin=dict(
+
+                l=20,
+
+                r=20,
+
+                t=50,
+
+                b=20
+
+    )
+
+)
+
         st.plotly_chart(fig, use_container_width=True)
 
     with col2:
