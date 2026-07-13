@@ -46,17 +46,22 @@ def display_lead_details(leads):
 
     with col2:
         st.write("**Lead Information**")
-        st.write(f"Budget: £{lead.get('budget'):,}" if lead.get("budget") else "Budget: N/A")
+        budget = lead.get("budget")
+
+    if budget:
+        st.write(f"Budget: £{budget:,.0f}")
+    else:
+        st.write("Budget: N/A")
         st.write(f"Qualification: {lead.get('qualification')}")
         st.write(f"Score: {lead.get('score')}")
         st.write(f"Created: {lead.get('created')}")
 
-    st.write("### Notes")
+    st.markdown("### 📝 Notes")
     st.info(
         lead.get("notes") or "No notes available."
     )
 
-    st.write("### AI Insight")
+    st.markdown("### 🤖 AI Insight")
     st.success(
         lead.get("ai_insight") or "No AI insight available."
     )

@@ -72,8 +72,20 @@ def display_priority_leads(leads):
     })
 )
 
-    st.dataframe(
-        df,
-        use_container_width=True,
-        hide_index=True
-    )
+    for _, row in df.iterrows():
+
+        with st.container():
+
+            st.markdown(
+                f"""
+    ### 🔥 {row['Company']}
+
+    **Budget:** {row['Budget']}
+
+    **Score:** ⭐ {row['Score']}
+
+    **Status:** {row['Qualification']}
+
+    ---
+    """
+            )

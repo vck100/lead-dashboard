@@ -5,6 +5,7 @@ Frontend interface for the Lead Qualification API.
 """
 
 import streamlit as st
+import pandas as pd
 
 from components.lead_details import display_lead_details
 from services.api_client import get_leads
@@ -19,8 +20,17 @@ st.set_page_config(
 )
 
 
-st.title("Sales Lead Dashboard")
-st.caption("Monitor and prioritise inbound sales leads.")
+from datetime import datetime
+
+st.title("📊 Sales Lead Dashboard")
+
+st.caption(
+    "AI-powered lead qualification and sales pipeline monitoring."
+)
+
+st.write(
+    f"**Last Refreshed:** {datetime.now().strftime('%d %b %Y %H:%M')}"
+)
 
 
 # Load leads once
@@ -29,8 +39,13 @@ if "leads" not in st.session_state:
 
 
 # Refresh button
-if st.button("Refresh Dashboard"):
-    st.session_state.leads = get_leads()
+if st.button("🔄 Refresh Dashboard"):
+
+    with st.spinner("Loading latest leads..."):
+
+        st.session_state.leads = get_leads()
+
+    st.success("Dashboard updated.")
 
 
 # Search
@@ -99,3 +114,23 @@ st.subheader("Lead History")
 
 
 display_lead_table(filtered_leads)
+
+st.divider()
+
+st.subheader("Export")
+
+csv = pd.DataFrame(
+    filtered_leads
+).to_csv(index=False)
+
+st.download_button(
+
+    "⬇ Download Leads CSV",
+
+    csv,
+
+    "sales_leads.csv",
+
+    "text/csv"
+
+)

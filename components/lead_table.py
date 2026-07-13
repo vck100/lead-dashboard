@@ -38,9 +38,9 @@ def display_lead_table(
 
     if "budget" in df.columns:
 
-         df["budget"] = df["budget"].apply(
-        lambda x: f"£{x:,.0f}" if x else "N/A"
-    )
+        df["Budget"] = df["Budget"].apply(
+    lambda x: f"£{x:,.0f}" if pd.notna(x) else "N/A"
+)
 
     df = df.rename(
     columns={
@@ -62,8 +62,12 @@ def display_lead_table(
         ascending=False
 )
     df["Date Added"] = (
-    pd.to_datetime(df["Date Added"])
-      .dt.strftime("%d %b %Y")
+        pd.to_datetime(
+            df["Date Added"],
+            errors="coerce"
+        )
+        .dt.strftime("%d %b %Y")
+        .fillna("Unknown")
 )
 
     st.dataframe(
@@ -73,3 +77,5 @@ def display_lead_table(
         use_container_width=True
 
     )
+
+    
